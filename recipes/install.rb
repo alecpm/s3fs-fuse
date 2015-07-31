@@ -38,6 +38,11 @@ else
   raise "Unsupported platform family provided: #{node.platform_family}"
 end
 
+if node.platform_family == 'debian' and node.platform_version.to_f >= 14 then
+  prereqs.delete('fuse-utils')
+  prereqs.push('fuse')
+end
+
 prereqs = node[:s3fs_fuse][:packages] unless node[:s3fs_fuse][:packages].empty?
 
 prereqs.each do |prereq_name|
